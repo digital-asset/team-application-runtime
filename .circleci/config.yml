@@ -1,0 +1,50 @@
+# Scala CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/sample-config/ for more details
+#
+version: 2.1
+
+env: &env
+  TERM: dumb
+  CI: "true"
+  USER: circleci
+
+jobs:
+  build:
+    docker:
+    - image: cimg/openjdk:11.0.13
+    environment:
+      <<: *env
+    steps:
+      - checkout
+      - run:
+          name: build
+          command: |
+            set -euo pipefail
+
+            sbt test
+  release:
+    docker:
+    - image: cimg/openjdk:11.0.13
+    environment:
+      <<: *env
+    steps:
+      - checkout
+      - run:
+          name: release
+          command: |
+            set -euo pipefail
+
+            echo "TODO: release"
+
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build
+    - release:
+        requires:
+        - build
+        filters:
+          branches:
+            only: main
