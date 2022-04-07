@@ -7,9 +7,8 @@ ThisBuild / organization := "com.daml"
 ThisBuild / organizationName := "Digital Asset"
 ThisBuild / licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
-addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full)
 
-lazy val root = (project in file("."))
+lazy val scalatest_utils = (project in file("scalatest-utils"))
   .settings(
     name := "scalatest-utils",
     libraryDependencies ++= Seq(
@@ -24,6 +23,7 @@ lazy val root = (project in file("."))
       "org.scalatestplus" %% "scalacheck-1-15" % "3.2.9.0",
       "org.scalaz" %% "scalaz-core" % "7.2.33",
     ),
+    addCompilerPlugin("org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full),
   )
 
 // TODO: See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
