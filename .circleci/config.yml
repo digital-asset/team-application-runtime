@@ -19,10 +19,8 @@ jobs:
       - checkout
       - run:
           name: build
-          command: |
-            set -euo pipefail
+          command: ./build.sh
 
-            sbt test
   release:
     docker:
     - image: cimg/openjdk:11.0.13
@@ -34,8 +32,18 @@ jobs:
           name: release
           command: |
             set -euo pipefail
+            export PGP_PASSPHRASE=""
+            export PGP_SECRET="$gpg_code_signing"
+            export SONATYPE_PASSWORD="$MAVEN_PASSWORD"
+            export SONATYPE_USERNAME="$MAVEN_USERNAME"
+            export CI_COMMIT_TAG=1
 
-            echo "TODO: release"
+            deploy=$(git log -n1 --format="%(trailers:key=deploy,valueonly)" $COMMIT)
+            if [ "$deploy" = "true" ]; then
+              while IFS='' read -r p || [ -n "$p" ]; do
+                ./release.sh $p
+              done < release.txt
+            fi
 
 workflows:
   version: 2
@@ -45,6 +53,9 @@ workflows:
     - release:
         requires:
         - build
+        context:
+        # Despite the name, that's where the Sonatype credentials are.
+        - npn-publish
         filters:
           branches:
             only: main

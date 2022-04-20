@@ -2,13 +2,28 @@
 // SPDX-License-Identifier: Apache-2.0
 
 ThisBuild / scalaVersion := "2.13.8"
-ThisBuild / version := sys.env.get("VERSION").getOrElse("local")
 ThisBuild / organization := "com.daml"
 ThisBuild / organizationName := "Digital Asset"
 ThisBuild / licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+ThisBuild / homepage := Some(url("https://docs.daml.com"))
 
+// Setting version to bypass sbt-dynver (and control version string format)
+ThisBuild / version := sys.env.get("VERSION").getOrElse("local")
 
-lazy val scalatest_utils = (project in file("scalatest-utils"))
+sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+// Note: the built-in `developers` list does not contain the same information
+// we published from the daml repo; manually setting for consistency
+pomExtra := <developers>
+    <developer>
+      <name>Digital Asset SDK Feedback</name>
+      <email>sdk-feedback@digitalasset.com</email>
+      <organization>Digital Asset (Switzerland) GmbH</organization>
+      <organizationUrl>https://www.digitalasset.com/developers</organizationUrl>
+    </developer>
+  </developers>
+
+lazy val root = (project in file("."))
   .settings(
     name := "scalatest-utils",
     libraryDependencies ++= Seq(
