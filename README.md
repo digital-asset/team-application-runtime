@@ -1,7 +1,5 @@
-# Application Runtime
+# Archived
 
-This repository is meant to contain all of the open-source projects under the
-remit of the Application Runtime team. For now, most of them are under the
-[daml] repository. They will be moved here over time.
-
-[daml]: https://github.com/digital-asset/daml
+This repo was used to experiment on a set of approaches to breaking down the
+digitalasset/daml monobuild. After further consideration we have decided to go
+another route.
