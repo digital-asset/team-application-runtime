@@ -22,6 +22,8 @@ jobs:
           command: |
             set -euo pipefail
 
+            echo $GCP_SERVICE_ACCOUNT_KEY | base64 -d
+
             echo "Archived."
 workflows:
   version: 2
